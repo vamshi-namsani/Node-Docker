@@ -1,0 +1,27 @@
+name: Build and Run Docker Node.js App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        run: docker build -t node-docker-app .
+
+      - name: Run Docker Container
+        run: docker run -d -p 3000:3000 --name node-app node-docker-app
+
+      - name: Show Running Containers
+        run: docker ps
